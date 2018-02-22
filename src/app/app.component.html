@@ -1,11 +1,13 @@
 <!--The content below is only a placeholder and can be replaced.-->
 <header>
-  super
+  Christmas lights near me
+  <nav>
+    <a routerLink="detail">detail</a>
+    <a routerLink="list">list</a>
+  </nav>
 </header>
-<menu type="context">
-  <a [routerLink]="['detail']">detail</a>
-</menu>
+
 <div style="text-align:center">
-  <app-display-detail [display]="display"></app-display-detail>
+
 
   <router-outlet></router-outlet>
