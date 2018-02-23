@@ -2,16 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 
-import { DisplayService } from '../display.service';
-
-export class Display {
-  id: number;
-  name: string;
-  cost: string;
-  pictures: string;
-  address: string;
-  rating: number;
-}
+import { DisplayService, Display } from '../display.service';
 
 @Component({
   selector: 'app-display-detail',

@@ -1,0 +1,8 @@
+<agm-map [latitude]="center.lat" [longitude]="center.lng">
+  <agm-marker *ngFor="let marker of displays" [latitude]="marker.location.lat" [longitude]="marker.location.lng">
+    <agm-info-window>
+      <app-map-detail [detail]="marker">
+      </app-map-detail>
+    </agm-info-window>
+  </agm-marker>
+</agm-map>
