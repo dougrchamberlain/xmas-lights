@@ -1,6 +1,7 @@
 hello
 <ul>
-  <li *ngFor="let display of displays">
-    <a routerLink="/detail/{{display.id}}">{{display.name}}</a>
+  <li *ngFor="let display of (displays | async)">
+    <a routerLink="/detail/{{display.key}}">{{display.name}} </a>
+    <span class="glyphicon glyphicon-trash" aria-hidden="true" (click)="remove(display.key)"></span>
   </li>
 </ul>

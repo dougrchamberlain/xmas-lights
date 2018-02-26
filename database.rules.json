@@ -1,0 +1,8 @@
+{
+  "rules": {
+    "displays": {
+      ".read": true,
+      ".write": true
+    }
+  }
+}

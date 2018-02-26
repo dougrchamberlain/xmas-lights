@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { DisplayService, Display } from '../display.service';
+import { Observable } from 'rxjs/Observable';
+import { FirebaseListObservable } from 'firebase/database';
 
 @Component({
   selector: 'app-display-list',
@@ -8,7 +10,7 @@ import { DisplayService, Display } from '../display.service';
 })
 export class DisplayListComponent implements OnInit {
 
-  public displays: Display[];
+  public displays: Observable<Display[]>;
 
   constructor(private displayService: DisplayService) { }
 
@@ -17,7 +19,12 @@ export class DisplayListComponent implements OnInit {
   }
 
   getDisplays() {
-    this.displayService.getDisplays().subscribe(displays => this.displays = displays);
+    this.displays = this.displayService.getDisplays();
+  }
+
+  remove(display) {
+    console.log('removing', display);
+    this.displayService.remove(display);
   }
 
 }

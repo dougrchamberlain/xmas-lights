@@ -1,0 +1,13 @@
+<div class="container">
+  <p>
+    display-edit works!
+  </p>
+
+  <form (ngSubmit)="add()" #displayForm="ngForm" class="container">
+    <div class="form-group">
+      <label for="name">Name</label>
+      <input name="name" class="form-control " type="text " [(ngModel)]="display.name ">
+    </div>
+    <button type="submit " class="btn btn-success ">Add</button>
+  </form>
+</div>

@@ -1,8 +1,15 @@
-<pre>id: {{display.id}}</pre>
+{{diagnostic}}
+<h1>id: {{(display | async)?.id }}</h1>
 <h1>{{display.name}}</h1>
 <h3>cost:
-  <span>{{display.cost}}</span>
+  <span>{{(display | async)?.cost}}</span>
 </h3>
-<img [src]="display.pictures" alt="">
-<p>{{display.address}}</p>
-<p>{{display.rating}}</p>
+<img src="{{display.pictures}}" alt="">
+<p>{{(display | async)?.address}}</p>
+<p>{{(display | async)?.rating}}</p>
+
+<form action="" ngForm>
+  <input type="text" [(ngModel)]="display.name" name="name">
+</form>
+
+<pre>{{display.name}}</pre>

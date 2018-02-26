@@ -1,6 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { of } from 'rxjs/observable/of';
+import { AngularFireDatabase } from 'angularfire2/database';
+import { FirebaseListObservable } from 'firebase/database';
+import { ThenableReference } from '@firebase/database-types';
+
 
 export class Display {
   id: number;
@@ -10,58 +14,59 @@ export class Display {
   address: string;
   rating: number;
   location: any;
-}
+  coords?: any;
 
-const DISPLAYS: Display[] = [{
-  id: 1,
-  name: 'xmas house',
-  pictures: 'https://dummyimage.com/300',
-  rating: 5,
-  cost: 'free, not',
-  address: 'north pole',
-  location: { lat: 27.773056, lng: -82.639999 }
-},
-{
-  id: 2,
-  name: 'scrooges house',
-  pictures: 'https://dummyimage.com/300',
-  rating: 5,
-  cost: 'free, not',
-  address: 'north pole',
-  location: { lat: 27.77150, lng: -82.639900 }
-},
-{
-  id: 3,
-  name: 'santas house',
-  pictures: 'https://dummyimage.com/300',
-  rating: 5,
-  cost: 'free, not',
-  address: 'north pole',
-  location: { lat: 27.773156, lng: -82.638000 }
-},
-{
-  id: 4,
-  name: 'some building',
-  pictures: 'https://dummyimage.com/300',
-  rating: 5,
-  cost: 'free, not',
-  address: 'north pole',
-  location: { lat: 27.773356, lng: -82.6312000 }
-}
-];
+  constructor() {
 
+  }
+
+
+  // tslint:disable-next-line:max-line-length
+  static fromJson(obj): Display {
+
+    let display = new Display();
+    display = { display, ...obj };
+
+    console.log('merged display', display);
+    return display;
+  }
+
+
+
+  static fromJsonList(array): Display[] {
+    return array.map((json) => Display.fromJson(json));
+  }
+}
 
 @Injectable()
 export class DisplayService {
 
-  constructor() { }
+  constructor(private db: AngularFireDatabase) {
+  }
 
-  getDisplay(id: number): Observable<Display> {
-    return of(DISPLAYS.find(display => display.id === id));
+  getDisplay(id: string): Observable<Display> {
+    // return this.db(`users/1`).valueChanges().map(Display.fromJson);
+    return this.db.object<Display>(`displays/${id}`).valueChanges();
   }
 
   getDisplays(): Observable<Display[]> {
-    return of(DISPLAYS);
+    return this.db.list<Display>('displays/').snapshotChanges().map((changes) => {
+      console.log(changes);
+      return changes.map(c => ({ key: c.key, ...c.payload.val() }));
+    });
+  }
+
+  addDisplay(display: Display): ThenableReference {
+    return this.db.list<Display>('displays/').push(display);
+  }
+
+  remove(displayKey: string) {
+    return this.db.object<Display>(`displays/${displayKey}`).remove();
+  }
+
+
+  update(displayKey: string, obj: Object) {
+    return this.db.object<Display>(`displays/${displayKey}`).update(obj);
   }
 
 }

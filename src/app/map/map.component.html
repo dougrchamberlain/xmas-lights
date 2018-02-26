@@ -1,5 +1,6 @@
-<agm-map [latitude]="center.lat" [longitude]="center.lng">
-  <agm-marker *ngFor="let marker of displays" [latitude]="marker.location.lat" [longitude]="marker.location.lng">
+<agm-map (mapClick)="clickMap($event)" [latitude]="center.lat" [longitude]="center.lng">
+  <agm-marker [markerDraggable]="true" [openInfoWindow]="false" *ngFor="let marker of displays" [latitude]="marker.coords.lat"
+    [longitude]="marker.coords.lng" (dragEnd)="markerDragEnd($event,marker)" (markerClick)="markerSelect(marker)">
     <agm-info-window>
       <app-map-detail [detail]="marker">
       </app-map-detail>
